@@ -8,6 +8,14 @@ const loadPhones = async(searchText) =>{
 const displayPhones = phones =>{
     const phonesContainer = document.getElementById('phone-container');
     phonesContainer.textContent = '';
+    phones = phones.slice(0, 10);
+
+    if(phones.length === 0){
+      document.getElementById('noPhones').classList.remove('d-none');
+    }else{
+      document.getElementById('noPhones').classList.add('d-none');
+    }
+
     phones.forEach( phone => {
         const phoneDiv = document.createElement('div');
         phoneDiv.classList.add('col');
@@ -22,10 +30,22 @@ const displayPhones = phones =>{
         `
     phonesContainer.appendChild(phoneDiv);
     })
+
+    loader(false);
 }
 
 document.getElementById('btn-search').addEventListener('click', function(){
+  loader(true);
     const searchField = document.getElementById('exampleFormControlInputField');
     const searchValue = searchField.value;
     loadPhones(searchValue);
 })
+
+const loader = isLoading =>{
+  const loader = document.getElementById('loader');
+  if(isLoading){
+    loader.classList.remove('d-none');
+  }else{
+    loader.classList.add('d-none');
+  }
+}
