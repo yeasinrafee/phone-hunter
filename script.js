@@ -1,14 +1,22 @@
-const loadPhones = async(searchText) =>{
+const loadPhones = async(searchText, dataLimit) =>{
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     const res = await fetch(url);
     const data = await res.json();
-    displayPhones(data.data);
+    displayPhones(data.data, dataLimit);
 }
 
-const displayPhones = phones =>{
+const displayPhones = (phones, dataLimit) =>{
     const phonesContainer = document.getElementById('phone-container');
     phonesContainer.textContent = '';
-    phones = phones.slice(0, 10);
+
+    //Show first 10 mobiles:
+    const showAll = document.getElementById('show-all');
+    if(dataLimit && phones.length > 10){
+      phones = phones.slice(0, 10);
+      showAll.classList.remove('d-none');
+    }else{
+      showAll.classList.add('d-none');
+    }
 
     if(phones.length === 0){
       document.getElementById('noPhones').classList.remove('d-none');
@@ -34,11 +42,19 @@ const displayPhones = phones =>{
     loader(false);
 }
 
-document.getElementById('btn-search').addEventListener('click', function(){
-  loader(true);
+const processData = (dataLimit) =>{
+    loader(true);
     const searchField = document.getElementById('exampleFormControlInputField');
     const searchValue = searchField.value;
-    loadPhones(searchValue);
+    loadPhones(searchValue, dataLimit);
+}
+
+document.getElementById('btn-search').addEventListener('click', function(){
+  processData(10);
+})
+
+document.getElementById('btn-show-all').addEventListener('click', function(){
+  processData();
 })
 
 const loader = isLoading =>{
