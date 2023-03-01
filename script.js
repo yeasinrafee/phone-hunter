@@ -81,7 +81,6 @@ const showPhoneDetails = async id =>{
 }
 
 const displayPhoneDetails = phone =>{
-  console.log(phone);
   const phoneTitle = document.getElementById('exampleModalLabel');
   phoneTitle.innerText = `${phone.name}`;
   const phoneBody = document.getElementById('modal-body');
@@ -91,4 +90,3 @@ const displayPhoneDetails = phone =>{
     <p>Bluetooth: ${phone.others ? phone.others.Bluetooth : "No other information avialable"}</p>
   `
 }
-loadPhones();
